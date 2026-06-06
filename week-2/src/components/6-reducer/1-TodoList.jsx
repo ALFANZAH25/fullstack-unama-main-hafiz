@@ -13,7 +13,13 @@ function reducer(state, action) {
       };
 
     case "DELETE":
-      return {};
+      return {
+        // tugas tambahan (menambahkan fitur delete)
+        ...state,
+        todos: state.todos.filter(
+          (_, index) => index !== action.payload
+        ),
+      };
 
     default:
       return state;
@@ -29,14 +35,21 @@ const TodoList = () => {
     setText("");
   };
 
+  // tugas tambahan (menambahkan fitur delete)
+  const deleteTodo = (index) => {
+    dispatch({ type: "DELETE", payload: index });
+  };
+
   return (
     <div>
       <h1>TodoList App</h1>
+
       <input
         type="text"
         value={text}
         onChange={(event) => setText(event.target.value)}
       />
+
       <button onClick={addTodo}>Tambah Todo</button>
 
       <ul>
@@ -46,7 +59,10 @@ const TodoList = () => {
             style={{ display: "flex", gap: 10, listStyle: "outside" }}
           >
             {todo}
-            <button>Delete</button>
+            
+            <button onClick={() => deleteTodo(index)}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>
